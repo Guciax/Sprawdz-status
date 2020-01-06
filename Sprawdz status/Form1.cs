@@ -21,8 +21,8 @@ namespace Sprawdz_status
         {
             if(e.KeyCode == Keys.Return)
             {
-                dataGridView1.Rows.Clear();
-                var matchingComponents = Graffiti.MST.ComponentsTools.GetDbData.GetComponentHistoryBatch(new List<string> { textBox1.Text });
+                dgvCompHistory.Rows.Clear();
+                var matchingComponents = Graffiti.MST.ComponentsTools.GetDbData.GetComponentHistoryBatch(new List<string> { tbCompQr.Text });
                 if (!matchingComponents.Any())
                 {
                     MessageBox.Show("Brak danych o komponencie.");
@@ -31,7 +31,7 @@ namespace Sprawdz_status
                 var sortedByDate = matchingComponents.OrderByDescending(c => c.operationDate);
                 foreach (var compEntry in sortedByDate)
                 {
-                    dataGridView1.Rows.Add(
+                    dgvCompHistory.Rows.Add(
                         compEntry.operationDate,
                         compEntry.Nc12_Formated_Rank,
                         compEntry.Id,
@@ -49,17 +49,66 @@ namespace Sprawdz_status
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            dataGridView1.Columns.Add("opDate", "Data operacji");
-            dataGridView1.Columns.Add("nc", "12NC");
-            dataGridView1.Columns.Add("id", "ID");
-            dataGridView1.Columns.Add("qr", "kod QR");
-            dataGridView1.Columns.Add("qty", "Ilość");
-            dataGridView1.Columns.Add("loc", "Lokalizator");
-            dataGridView1.Columns.Add("doc", "Rodzaj dokumentu");
-            dataGridView1.Columns.Add("exp", "Data przydatności");
-            dataGridView1.Columns.Add("opDate", "Data operacji");
-            dataGridView1.Columns.Add("kit", "KIT ID");
-            dataGridView1.Columns.Add("vt", "V type code");
+            dgvCompHistory.Columns.Add("opDate", "Data operacji");
+            dgvCompHistory.Columns.Add("nc", "12NC");
+            dgvCompHistory.Columns.Add("id", "ID");
+            dgvCompHistory.Columns.Add("qr", "kod QR");
+            dgvCompHistory.Columns.Add("qty", "Ilość");
+            dgvCompHistory.Columns.Add("loc", "Lokalizator");
+            dgvCompHistory.Columns.Add("doc", "Rodzaj dokumentu");
+            dgvCompHistory.Columns.Add("exp", "Data przydatności");
+            dgvCompHistory.Columns.Add("opDate", "Data operacji");
+            dgvCompHistory.Columns.Add("kit", "KIT ID");
+            dgvCompHistory.Columns.Add("vt", "V type code");
+        }
+
+        private void textBox2_KeyDown(object sender, KeyEventArgs e)
+        {
+            var kittingData = MST.MES.SqlDataReaderMethods.Kitting.GetOneOrderByDataReader(tbOrderNoMes.Text);
+            if(kittingData == null)
+            {
+                MessageBox.Show("Brak danych dla podanego zlecenia");
+                return;
+            }
+
+            int graffOrderNo = kittingData.GraffitiOrder.PrimaryKey00;
+            List<Graffiti.MST.ComponentsTools.ComponentStruct> compsConnectedToOrder= Graffiti.MST.OrdersOperations.GetData.CoNaRW();
+
+            dgvRw.Rows.Clear();
+
+            dgvRw.Rows.Add("Numer zlecenia MES:", kittingData.orderNo);
+            dgvRw.Rows.Add("Numery zlecenia Graffiti:");
+            dgvRw.Rows.Add("Wyrób - klucz główny", kittingData.orderNo);
+            dgvRw.Rows.Add("Półwyrób - klucz główny", kittingData.orderNo);
+            dgvRw.Rows.Add("Wyrób - klucz w danym roku", kittingData.orderNo);
+            dgvRw.Rows.Add("Półwyrób - klucz w danym roku", kittingData.orderNo);
+            dgvRw.Rows.Add();
+            dgvRw.Rows.Add(
+                        "Data operacji",
+                        "12NC",
+                        "ID",
+                        "Kod QR",
+                        "Ilość",
+                        "Lokalizator",
+                        "Dok. symbol",
+                        "Data przydatności",
+                        "ID Kitu",
+                        "VtypeCode");
+            foreach (var c in compsConnectedToOrder.OrderBy(c=>c.Nc12_Formated_Rank))
+            {
+                dgvRw.Rows.Add(
+                    c.operationDate,
+                    c.Nc12_Formated_Rank,
+                    c.Id,
+                    c.QrCode,
+                    c.Quantity,
+                    c.Location,
+                    c.DocumentSymbol,
+                    c.expirationDate,
+                    c.KitId,
+                    c.VtCode);
+            }
+
         }
     }
 }
