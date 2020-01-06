@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sprawdz status", "Sprawdz status\Sprawdz status.csproj", "{B0D48BF9-C1D6-4E1F-8F7A-25759500AA30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0D48BF9-C1D6-4E1F-8F7A-25759500AA30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0D48BF9-C1D6-4E1F-8F7A-25759500AA30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0D48BF9-C1D6-4E1F-8F7A-25759500AA30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0D48BF9-C1D6-4E1F-8F7A-25759500AA30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {092235D0-F7BA-4815-B54C-59A1D1BFE4AD}
+	EndGlobalSection
+EndGlobal
